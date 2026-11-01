@@ -22,3 +22,39 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+
+auth*
+*auth
+
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+coverage/
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Logs
+*.log
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# WhatsApp authentication/session data
+auth_info_baileys/
+auth_info_baileys

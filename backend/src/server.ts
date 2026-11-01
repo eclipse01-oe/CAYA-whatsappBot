@@ -1,13 +1,12 @@
+import 'dotenv/config';
 import express, {type Application, type Request, type Response} from 'express'
 import cors from 'cors';
 import { whatsappRouter } from './routes/routes.js'
 
 export const app: Application = express()
 
-const urlOrigin = [
-    'http://localhost:5173',
-    'http://127.0.0.1:5173'
-]
+
+const urlOrigin = process.env.urlOrigin
 
 app.use(cors({
     origin: urlOrigin,

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import './utils/messageQueue.js';
 import { app } from './server.js';
 

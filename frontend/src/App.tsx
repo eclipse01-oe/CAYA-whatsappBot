@@ -23,6 +23,8 @@ import {
 
 import './App.css';
 
+const envURL = import.meta.env.VITE_API_URL
+
 
 function App() {
 
@@ -98,7 +100,7 @@ function App() {
     useEffect(() => {
 
         const source = new EventSource(
-            'http://localhost:3000/api/connection/stream'
+            `${envURL}/api/connection/stream`
         );
 
         source.onopen = () => {
