@@ -1,6 +1,6 @@
 import { useEffect, useState, type SubmitEvent } from 'react';
 
-import { regStatus, submitCampaign } from './utils/api.utils';
+import { API_BASE_URL, regStatus, submitCampaign } from './utils/api.utils';
 import { parseRecipients } from './utils/campaign.utils';
 import { useLocalStorage } from './utils/localStorage';
 
@@ -23,7 +23,7 @@ import {
 
 import './App.css';
 
-const envURL = import.meta.env.VITE_API_URL
+// const envURL = import.meta.env.VITE_API_URL
 
 
 function App() {
@@ -100,7 +100,7 @@ function App() {
     useEffect(() => {
 
         const source = new EventSource(
-            `${envURL}/api/connection/stream`
+            `${API_BASE_URL}/connection/stream`
         );
 
         source.onopen = () => {
