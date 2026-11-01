@@ -5,8 +5,7 @@ import { whatsappRouter } from './routes/routes.js'
 
 export const app: Application = express()
 
-
-const urlOrigin = process.env.urlOrigin
+const urlOrigin = process.env.FRONTEND_URL || process.env.FRONTEND_URL_TWO
 
 app.use(cors({
     origin: urlOrigin,
