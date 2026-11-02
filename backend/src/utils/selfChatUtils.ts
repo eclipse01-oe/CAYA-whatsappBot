@@ -71,18 +71,11 @@ export const getSelfJids = (
 };
 
 
-type TextMessage = {
-    message?: {
+type TextMessage = { message?: {
         conversation?: string | null;
-        extendedTextMessage?: {
-            text?: string | null;
-        } | null;
-        imageMessage?: {
-            caption?: string | null;
-        } | null;
-        videoMessage?: {
-            caption?: string | null;
-        } | null;
+        extendedTextMessage?: {text?: string | null} | null;
+        imageMessage?: {caption?: string | null} | null;
+        videoMessage?: {caption?: string | null} | null;
     } | null;
 };
 
@@ -202,7 +195,6 @@ const cleanRecipientPrefix = (line: string): string => {
 };
 
 
-// Normalize international phone numbers.
 const cleanPhoneNumber = (value: string): string => {
 
     const input = value.trim();
@@ -277,7 +269,6 @@ export const parseSendData = (
         );
     }
 
-    // Extract message section.
     const messageLines = lines.slice(1, separatorIndex);
 
     const headerIndex = messageLines.findIndex(
@@ -311,7 +302,6 @@ export const parseSendData = (
         );
     }
 
-    // Extract recipient entries.
     const recipientLines = lines
         .slice(separatorIndex + 1)
         .filter(line => line.trim().length > 0);
@@ -352,7 +342,6 @@ export const parseSendData = (
             );
         }
 
-        // E.164-style international number validation.
         if (!/^[1-9]\d{7,14}$/.test(phone)) {
             throw new Error(
                 `Invalid phone number for ${name}: "${recipientLines[i]}". Please provide a valid international number.`
@@ -476,7 +465,6 @@ export const prepareCampaignData = (
             );
         }
 
-        // Detect duplicates after normalization.
         if (seenPhones.has(normalizedPhone)) {
             throw new Error(
                 `Duplicate phone number detected: ${normalizedPhone}.`

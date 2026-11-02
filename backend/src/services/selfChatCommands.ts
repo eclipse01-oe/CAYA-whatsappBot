@@ -21,12 +21,10 @@ export function setupSelfChatCommands(
     accountPhone: string
 ): void {
 
-    // Used to prevent old history messages from executing commands.
     const listenerStartedAt = Date.now();
 
     sock.ev.on('messages.upsert', async ({ messages, type }) => {
 
-        // Accept both real-time and appended messages.
         if (type !== 'notify' && type !== 'append') {
             return;
         }
@@ -51,17 +49,14 @@ export function setupSelfChatCommands(
                 continue;
             }
 
-            // Only accept messages sent by this account.
             if (message.key.fromMe !== true) continue;
 
             const normalizedJid = jidNormalizedUser(jid);
 
             const isSelfChat = selfJids.has(normalizedJid);
 
-            // Ignore messages sent to other conversations.
             if (!isSelfChat) continue;
 
-            // Prevent old history messages from executing commands.
             if (type === 'append') {
 
                 const timestamp = Number(
@@ -112,7 +107,6 @@ export function setupSelfChatCommands(
                 }
             );
 
-            // Register the message before processing it.
             utils.processedMessages.add(uniqueId);
 
             if (utils.processedMessages.size > 1000) {
@@ -132,7 +126,6 @@ export function setupSelfChatCommands(
 
             try {
 
-                // CAYABOT instructions.
                 if (text.toLowerCase() === 'cayabot') {
 
                     await utils.showInstructions(
@@ -147,7 +140,6 @@ export function setupSelfChatCommands(
                     continue;
                 }
 
-                // SEND command.
                 if (!/^SEND(?:\r?\n|$)/i.test(text)) {
                     continue;
                 }
@@ -159,7 +151,6 @@ export function setupSelfChatCommands(
 
                 const jobs: SendMessagesJob[] = [];
 
-                // Split recipients into batches.
                 for (
                     let i = 0;
                     i < data.recipients.length;
@@ -182,7 +173,6 @@ export function setupSelfChatCommands(
 
                 let acceptedJobs = 0;
 
-                // Submit individual jobs.
                 for (const job of jobs) {
 
                     const accepted = emit(

@@ -34,19 +34,15 @@ const RECONNECT_MAX_DELAY_MS = 30_000;
 const PAIRING_RESTART_DELAY_MS = 750;
 
 
-// Each account has its own socket.
 const activeSockets = new Map<string, WASocket>();
 
-// Track connected accounts.
 const connectedAccounts = new Set<string>();
 
-// Prevent duplicate initialization of the same account.
 const startingAccounts = new Map<
     string,
     Promise<WASocket | undefined>
 >();
 
-// Reconnection attempts are independent per account.
 const reconnectAttempts = new Map<string, number>();
 
 function delay(ms: number): Promise<void> {
@@ -110,7 +106,6 @@ export async function sendWhatsAppSelfMessage(
         );
     }
 
-    // Get the connected account's own WhatsApp JID.
     const ownJid = sock.user?.id;
 
     if (!ownJid) {
@@ -119,7 +114,6 @@ export async function sendWhatsAppSelfMessage(
         );
     }
 
-    // Normalize the JID to remove device-specific addressing.
     const selfJid = jidNormalizedUser(ownJid);
 
     const result = await sock.sendMessage(selfJid, {
@@ -151,7 +145,6 @@ async function startAccount(
         '.session-revoked'
     );
 
-    // Don't reuse a rejected session.
     if (existsSync(SESSION_REVOKED_MARKER)) {
 
         console.error(
@@ -226,7 +219,6 @@ async function startAccount(
                 statusCode,
             });
 
-            // Forward status to SSE.
             if (connection) {
                 emit('whatsApp:connection-status', {
                     phoneNumber,
@@ -412,14 +404,12 @@ export async function whatsappBot(
         throw new Error('Invalid international phone number.');
     }
 
-    // Reuse the existing socket for this account.
     const existingSocket = activeSockets.get(phoneNumber);
 
     if (existingSocket) {
         return existingSocket;
     }
 
-    // Prevent simultaneous initialization of the same number.
     const existingStart = startingAccounts.get(phoneNumber);
 
     if (existingStart) {

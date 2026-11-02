@@ -161,7 +161,6 @@ async function processQueue(): Promise<void> {
 
             if (!task) break;
 
-            // Personalize the message.
             const personalizedMessage = task.template.replaceAll(
                 '${name}',
                 task.name
@@ -217,7 +216,6 @@ async function processQueue(): Promise<void> {
 
             } catch (error) {
 
-                // Connection dropped during sending.
                 if (!isWhatsAppConnected(task.accountPhone)) {
 
                     emit('job:progress', {

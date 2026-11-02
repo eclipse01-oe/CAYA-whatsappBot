@@ -16,7 +16,6 @@ export function setupIncomingMessages(
 
         for (const message of messages) {
 
-            // Ignore outgoing messages.
             if (message.key.fromMe || !message.message) {
                 continue;
             }
@@ -25,13 +24,10 @@ export function setupIncomingMessages(
 
             if (!jid) continue;
 
-            // Ignore status messages.
             if (jid === 'status@broadcast') continue;
 
-            // Ignore newsletters.
             if (jid.endsWith('@newsletter')) continue;
 
-            // Ignore groups for now.
             if (jid.endsWith('@g.us')) continue;
 
             const text = utils.getText(message).trim();
@@ -58,7 +54,6 @@ export function setupIncomingMessages(
                 incomingMessage
             );
 
-            // Basic test command.
             if (text.toLowerCase() === '!ping') {
 
                 try {
