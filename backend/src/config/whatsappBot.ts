@@ -200,33 +200,6 @@ async function startAccount(
         connectTimeoutMs: CONNECT_TIMEOUT_MS,
     });
 
-    // Temporary diagnostic: observe every message event from Baileys.
-sock.ev.on('messages.upsert', ({ messages, type }) => {
-
-    console.log(
-        `\n[${phoneNumber}] RAW UPSERT EVENT`,
-        {
-            type,
-            count: messages.length,
-        }
-    );
-
-    for (const message of messages) {
-
-        console.log({
-            id: message.key.id,
-            fromMe: message.key.fromMe,
-            remoteJid: message.key.remoteJid,
-            participant: message.key.participant,
-            timestamp: String(message.messageTimestamp),
-            hasContent: Boolean(message.message),
-            contentType: message.message
-                ? Object.keys(message.message)
-                : [],
-        });
-    }
-});
-
     activeSockets.set(phoneNumber, sock);
     connectedAccounts.delete(phoneNumber);
 
