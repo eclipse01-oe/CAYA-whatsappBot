@@ -27,5 +27,10 @@
     "@types/qrcode-terminal": "^0.12.2",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "@whiskeysockets/baileys@6.7.24": true,
+    "esbuild@0.28.2": true,
+    "protobufjs@7.6.6": true
   }
 }
